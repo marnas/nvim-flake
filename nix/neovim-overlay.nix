@@ -76,8 +76,9 @@ with final.pkgs.lib; let
     ripgrep
     fd
     nixd
-    lua-language-server
     # nil # nix LSP
+    lua-language-server
+	yaml-language-server
   ];
 in
 {

@@ -1,35 +1,47 @@
-local servers = {}
-servers.lua_ls = {
-  Lua = {
-    formatters = {
-      ignoreComments = true,
+local servers = {
+
+  lua_ls = {
+    Lua = {
+      formatters = {
+        ignoreComments = true,
+      },
+      signatureHelp = { enabled = true },
+      diagnostics = {
+        globals = { 'nixCats', 'vim' },
+        disable = { 'missing-fields' },
+      },
     },
-    signatureHelp = { enabled = true },
-    diagnostics = {
-      globals = { 'nixCats', 'vim' },
-      disable = { 'missing-fields' },
-    },
+    telemetry = { enabled = false },
+    filetypes = { 'lua' },
   },
-  telemetry = { enabled = false },
-  filetypes = { 'lua' },
-}
-servers.nixd = {
+
   nixd = {
-    nixpkgs = {
-      -- nixd requires some configuration in flake based configs.
-      -- luckily, the nixCats plugin is here to pass whatever we need!
-      expr = [[import (builtins.getFlake "]] .. [[") { }   ]],
-    },
-    formatting = {
-      command = { "nixfmt" }
-    },
-    diagnostic = {
-      suppress = {
-        "sema-escaping-with"
+    nixd = {
+      nixpkgs = {
+        -- nixd requires some configuration in flake based configs.
+        -- luckily, the nixCats plugin is here to pass whatever we need!
+        expr = [[import (builtins.getFlake "]] .. [[") { }   ]],
+      },
+      formatting = {
+        command = { "nixfmt" }
+      },
+      diagnostic = {
+        suppress = {
+          "sema-escaping-with"
+        }
       }
     }
-  }
+  },
+
+  yamlls = {
+  	yaml = {
+  		schemas = { kubernetes = "*.yaml" },
+  	},
+  },
+
 }
+
+
 -- servers.clangd = {},
 -- servers.gopls = {},
 -- servers.pyright = {},
