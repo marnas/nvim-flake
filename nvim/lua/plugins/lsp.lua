@@ -39,6 +39,11 @@ local servers = {
 		},
 	},
 
+	gopls = {},
+	jsonls = {
+		-- cmd = { 'vscode-json-languageserver', '--stdio' },
+	},
+
 	terraformls = {},
 	tflint = {},
 

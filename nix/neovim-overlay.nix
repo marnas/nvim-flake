@@ -79,6 +79,8 @@ let
     ripgrep
     fd
     nixd
+    gopls
+    vscode-langservers-extracted
     # nil # nix LSP
     lua-language-server
     yaml-language-server
