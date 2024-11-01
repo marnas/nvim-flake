@@ -1,6 +1,8 @@
 # This overlay, when applied to nixpkgs, adds the final neovim derivation to nixpkgs.
-{ inputs }: final: prev:
-with final.pkgs.lib; let
+{ inputs }:
+final: prev:
+with final.pkgs.lib;
+let
   pkgs = final;
 
   # Use this to create a plugin from a flake input
@@ -51,6 +53,7 @@ with final.pkgs.lib; let
     cmp-nvim-lsp-signature-help # https://github.com/hrsh7th/cmp-nvim-lsp-signature-help/
     cmp-cmdline-history # cmp command line history suggestions
     lspkind-nvim
+    vim-terraform
 
     # ^ nvim-cmp extensions
     # git integration plugins
@@ -78,10 +81,11 @@ with final.pkgs.lib; let
     nixd
     # nil # nix LSP
     lua-language-server
-	yaml-language-server
+    yaml-language-server
+    terraform-ls
+    tflint
   ];
-in
-{
+in {
   # This is the neovim derivation
   # returned by the overlay
   nvim-pkg = mkNeovim {
@@ -90,8 +94,6 @@ in
   };
 
   # This can be symlinked in the devShell's shellHook
-  nvim-luarc-json = final.mk-luarc-json {
-    plugins = all-plugins;
-  };
+  nvim-luarc-json = final.mk-luarc-json { plugins = all-plugins; };
 
 }
