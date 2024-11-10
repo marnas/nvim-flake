@@ -39,6 +39,7 @@ let
     comment-nvim
     alpha-nvim
     leap-nvim
+    vim-helm
 
     # nvim-cmp (autocompletion) and extensions
     nvim-cmp # https://github.com/hrsh7th/nvim-cmp
@@ -81,9 +82,11 @@ let
     nixd
     gopls
     vscode-langservers-extracted
-    # nil # nix LSP
+    nil # nix LSP
+    nixfmt-classic
     lua-language-server
     yaml-language-server
+    helm-ls
     terraform-ls
     tflint
   ];

@@ -33,15 +33,17 @@ local servers = {
 		}
 	},
 
-	yamlls = {
-		yaml = {
-			schemas = { kubernetes = "*.yaml" },
-		},
-	},
+	helm_ls = {},
+
+	-- yamlls = {
+	-- 	yaml = {
+	-- 		schemas = { kubernetes = "*.yaml" },
+	-- 	},
+	-- },
 
 	gopls = {},
 	jsonls = {
-		-- cmd = { 'vscode-json-languageserver', '--stdio' },
+		cmd = { 'vscode-json-languageserver', '--stdio' },
 	},
 
 	terraformls = {},

@@ -1,7 +1,10 @@
 local M = {}
-function M.on_attach(_, bufnr)
+function M.on_attach(client, bufnr)
 	-- we create a function that lets us more easily define mappings specific
 	-- for LSP related items. It sets the mode, buffer and description for us each time.
+	if client.config.name == 'yamlls' and vim.bo.filetype == 'helm' then
+		vim.lsp.buf_detach_client(bufnr, client.id)
+	end
 
 	local nmap = function(keys, func, desc)
 		if desc then
