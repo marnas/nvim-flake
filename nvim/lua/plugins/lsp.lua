@@ -43,7 +43,7 @@ local servers = {
 
 	gopls = {},
 	jsonls = {
-		cmd = { 'vscode-json-languageserver', '--stdio' },
+		cmd = { 'vscode-json-language-server', '--stdio' },
 	},
 
 	terraformls = {},
