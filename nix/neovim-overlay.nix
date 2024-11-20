@@ -89,6 +89,7 @@ let
     helm-ls
     terraform-ls
     tflint
+    rust-analyzer
   ];
 in {
   # This is the neovim derivation
