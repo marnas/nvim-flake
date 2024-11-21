@@ -55,6 +55,8 @@ let
     cmp-cmdline-history # cmp command line history suggestions
     lspkind-nvim
     vim-terraform
+    render-markdown-nvim
+    markdown-preview-nvim
 
     # ^ nvim-cmp extensions
     # git integration plugins
