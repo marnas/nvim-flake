@@ -57,6 +57,8 @@ let
     vim-terraform
     render-markdown-nvim
     markdown-preview-nvim
+    neoscroll-nvim
+    harpoon2
 
     # ^ nvim-cmp extensions
     # git integration plugins
