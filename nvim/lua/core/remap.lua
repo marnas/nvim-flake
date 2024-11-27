@@ -26,8 +26,8 @@ remap("n", "<C-Tab>", ":bnext<CR>", opts)
 remap("n", "<C-S-Tab>", ":bprevious<CR>", opts)
 
 -- Better Scrolling
-remap("n", "<C-N>", "<C-E>", opts)
-remap("n", "<C-E>", "<C-Y>", opts)
+-- remap("n", "<C-N>", "<C-E>", opts)
+-- remap("n", "<C-E>", "<C-Y>", opts)
 
 -- Go to first character
 remap("n", "0", "^", opts)
