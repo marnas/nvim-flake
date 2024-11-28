@@ -30,6 +30,10 @@ require("neo-tree").setup({
 	},
 })
 
+-- Enabling git events for auto-refresh
+local events = require("neo-tree.events")
+events.fire_event(events.GIT_EVENT)
+
 -- enable Neotree auto refresh after git commands
 -- require("neo-tree.sources.filesystem.commands")
 -- 		.refresh(
