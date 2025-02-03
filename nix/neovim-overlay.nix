@@ -59,6 +59,8 @@ let
     markdown-preview-nvim
     neoscroll-nvim
     harpoon2
+    codecompanion-nvim
+    copilot-vim
 
     # ^ nvim-cmp extensions
     # git integration plugins
