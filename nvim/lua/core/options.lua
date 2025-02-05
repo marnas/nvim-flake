@@ -4,6 +4,7 @@ local options = {
 	ignorecase = true,                      -- ignore case in search patterns
 	mouse = "a",                            -- allow the mouse to be used in neovim
 	pumheight = 10,                         -- pop up menu height
+	autoread = true,
 	smartcase = true,                       -- smart case
 	smartindent = true,                     -- make indenting smarter again
 	splitbelow = true,                      -- force all horizontal splits to go below current window
@@ -33,6 +34,9 @@ vim.opt.shortmess:append "c"
 for key, value in pairs(options) do
 	vim.opt[key] = value
 end
+
+-- Auto refresh buffer on external changes
+vim.cmd "au CursorHold * checktime | call feedkeys('lh')"
 
 --vim.cmd "set whichwrap+=<,>,[,],h,l"
 --vim.cmd [[set iskeyword+=-]]
