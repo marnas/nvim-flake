@@ -22,8 +22,9 @@ remap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 remap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers
-remap("n", "<C-f>", ":bnext<CR>", opts)
-remap("n", "<C-S-f>", ":bprevious<CR>", opts)
+-- These unicode characters have been mapped to ctrl-tab and ctrl-shift-tab
+remap("n", "⌐", ":bnext<CR>", opts)
+remap("n", "¬", ":bprevious<CR>", opts)
 
 -- Better Scrolling
 -- remap("n", "<C-N>", "<C-E>", opts)
