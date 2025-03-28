@@ -4,16 +4,16 @@ require("monokai-pro").setup({
 	devicons = true, -- highlight the icons of `nvim-web-devicons`
 	styles = {
 		comment = { italic = true },
-		keyword = { italic = true }, -- any other keyword
-		type = { italic = true },    -- (preferred) int, long, char, etc
+		keyword = { italic = true },     -- any other keyword
+		type = { italic = true },        -- (preferred) int, long, char, etc
 		storageclass = { italic = true }, -- static, register, volatile, etc
-		structure = { italic = true }, -- struct, union, enum, etc
-		parameter = { italic = true }, -- parameter pass in function
+		structure = { italic = true },   -- struct, union, enum, etc
+		parameter = { italic = true },   -- parameter pass in function
 		annotation = { italic = true },
 		tag_attribute = { italic = true }, -- attribute of tag in reactjs
 	},
-	filter = "ristretto",            -- classic | octagon | pro | machine | ristretto | spectrum
-	inc_search = "background",       -- underline | background
+	filter = "pro",                    -- classic | octagon | pro | machine | ristretto | spectrum
+	inc_search = "background",         -- underline | background
 	background_clear = {
 		-- "float_win",
 		"toggleterm",
@@ -21,6 +21,16 @@ require("monokai-pro").setup({
 		"which-key",
 		"renamer"
 	}, -- "float_win", "toggleterm", "telescope", "which-key", "renamer", "neo-tree"
+	plugins = {
+		bufferline = {
+			underline_selected = false,
+			underline_visible = false,
+		},
+		indent_blankline = {
+			context_highlight = "default", -- default | pro
+			context_start_underline = false,
+		},
+	},
 })
 
-vim.cmd("colorscheme monokai-pro")
+vim.cmd([[colorscheme monokai-pro]])

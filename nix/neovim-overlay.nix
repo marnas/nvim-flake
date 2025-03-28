@@ -38,8 +38,6 @@ let
     leap-nvim
     vim-helm
 
-    # # nvim-cmp (autocompletion) and extensions
-    # nvim-cmp # https://github.com/hrsh7th/nvim-cmp
     blink-cmp
     friendly-snippets
     vim-terraform
@@ -47,7 +45,7 @@ let
     markdown-preview-nvim
     neoscroll-nvim
     # codecompanion-nvim
-    # copilot-vim
+    copilot-vim
 
     # ^ nvim-cmp extensions
     # git integration plugins
