@@ -29,42 +29,29 @@ let
   # }
   all-plugins = with pkgs.vimPlugins; [
     monokai-pro-nvim
-    nui-nvim
     neo-tree-nvim
     bufferline-nvim
     vim-tmux-navigator
     gitsigns-nvim
     nvim-lspconfig
-    neodev-nvim
-    comment-nvim
     alpha-nvim
     leap-nvim
     vim-helm
 
-    # nvim-cmp (autocompletion) and extensions
-    nvim-cmp # https://github.com/hrsh7th/nvim-cmp
-    luasnip
+    # # nvim-cmp (autocompletion) and extensions
+    # nvim-cmp # https://github.com/hrsh7th/nvim-cmp
+    blink-cmp
     friendly-snippets
-    cmp_luasnip # snippets autocompletion extension for nvim-cmp | https://github.com/saadparwaiz1/cmp_luasnip/
-    cmp-buffer # current buffer as completion source | https://github.com/hrsh7th/cmp-buffer/
-    cmp-path # file paths as completion source | https://github.com/hrsh7th/cmp-path/
-    cmp-nvim-lua # neovim lua API as completion source | https://github.com/hrsh7th/cmp-nvim-lua/
-    cmp-nvim-lsp # LSP as completion source | https://github.com/hrsh7th/cmp-nvim-lsp/
-    cmp-cmdline # cmp command line suggestions
-    cmp-nvim-lsp-signature-help # https://github.com/hrsh7th/cmp-nvim-lsp-signature-help/
-    cmp-cmdline-history # cmp command line history suggestions
-    lspkind-nvim
     vim-terraform
     render-markdown-nvim
     markdown-preview-nvim
     neoscroll-nvim
-    harpoon2
-    codecompanion-nvim
-    copilot-vim
+    # codecompanion-nvim
+    # copilot-vim
 
     # ^ nvim-cmp extensions
     # git integration plugins
-    # diffview-nvim # https://github.com/sindrets/diffview.nvim/
+    diffview-nvim # https://github.com/sindrets/diffview.nvim/
     # neogit # https://github.com/TimUntersberger/neogit/
     vim-fugitive # https://github.com/tpope/vim-fugitive/
     # ^ git integration plugins

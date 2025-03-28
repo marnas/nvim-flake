@@ -36,7 +36,7 @@ for key, value in pairs(options) do
 end
 
 -- Auto refresh buffer on external changes
-vim.cmd "au CursorHold * checktime | call feedkeys('lh')"
+-- vim.cmd "au CursorHold * checktime | call feedkeys('lh')"
 
 --vim.cmd "set whichwrap+=<,>,[,],h,l"
 --vim.cmd [[set iskeyword+=-]]
