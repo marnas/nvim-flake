@@ -17,6 +17,7 @@ local options = {
 	shiftwidth = 2,                         -- the number of spaces inserted for each indentation
 	tabstop = 2,                            -- insert 2 spaces for a tab
 	cursorline = true,                      -- highlight the current line
+	clipboard = "unnamedplus",              -- allows neovim to access the system clipboard
 	number = true,                          -- set numbered lines
 	signcolumn = "yes",                     -- always show the sign column, otherwise it would shift the text each time
 	scrolloff = 8,                          -- minimal number of screen lines to keep above and below the cursor.

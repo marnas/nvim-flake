@@ -7,6 +7,7 @@ local servers = {
 			signatureHelp = { enabled = true },
 			diagnostics = {
 				disable = { 'missing-fields' },
+				globals = { 'vim' },
 			},
 		},
 		telemetry = { enabled = false },
@@ -70,7 +71,8 @@ local servers = {
 
 for server_name, cfg in pairs(servers) do
 	require('lspconfig')[server_name].setup({
-		capabilities = require('blink-cmp').get_lsp_capabilities(),
+		-- capabilities = require('blink-cmp').get_lsp_capabilities(),
+		capabilities = require('plugins.lsp-on_attach').get_capabilities(),
 		on_attach = require('plugins.lsp-on_attach').on_attach,
 		settings = cfg,
 		filetypes = (cfg or {}).filetypes,
