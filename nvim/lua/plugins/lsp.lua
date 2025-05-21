@@ -80,3 +80,5 @@ for server_name, cfg in pairs(servers) do
 		root_pattern = (cfg or {}).root_pattern,
 	})
 end
+
+vim.lsp.set_log_level("off")

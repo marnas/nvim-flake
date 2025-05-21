@@ -1,6 +1,5 @@
 require "core.options"
 require "core.remap"
-require "plugins.alpha"
 -- require "plugins.blink-cmp"
 require "plugins.bufferline"
 -- require "plugins.codecompanion"
