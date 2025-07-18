@@ -10,5 +10,3 @@ local opts = {
 }
 
 blink.setup(opts)
-
-require('diffview').setup()

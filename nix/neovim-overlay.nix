@@ -61,7 +61,7 @@ let
     lspkind-nvim
     # ^ nvim-cmp extensions
     # git integration plugins
-    diffview-nvim # https://github.com/sindrets/diffview.nvim/
+    # diffview-nvim # https://github.com/sindrets/diffview.nvim/
     # neogit # https://github.com/TimUntersberger/neogit/
     vim-fugitive # https://github.com/tpope/vim-fugitive/
     # ^ git integration plugins

@@ -1,5 +1,6 @@
 local telescope = require('telescope')
 local builtin = require('telescope.builtin')
+local actions = require('telescope.actions')
 
 telescope.setup({
 	defaults = {
@@ -9,6 +10,15 @@ telescope.setup({
 			prompt_position = 'top',
 			-- height = 0.6,
 			-- width = 0.7,
+		},
+		mappings = {
+			i = {
+				["<c-d>"] = actions.delete_buffer,
+			},
+			n = {
+				["<c-d>"] = actions.delete_buffer,
+				["dd"] = actions.delete_buffer,
+			},
 		},
 	}
 })
