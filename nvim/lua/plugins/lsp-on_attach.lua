@@ -45,11 +45,11 @@ function M.on_attach(client, bufnr)
 	vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
 end
 
-function M.get_capabilities(server_name)
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
-	return capabilities
-end
+-- function M.get_capabilities(server_name)
+-- 	local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- 	capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+-- 	capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- 	return capabilities
+-- end
 
 return M

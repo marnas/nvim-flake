@@ -47,23 +47,24 @@ let
     # codecompanion-nvim
     copilot-vim
 
+    # TO be removed
     # nvim-cmp (autocompletion) and extensions
-    nvim-cmp # https://github.com/hrsh7th/nvim-cmp
-    luasnip
-    cmp_luasnip # snippets autocompletion extension for nvim-cmp | https://github.com/saadparwaiz1/cmp_luasnip/
-    cmp-buffer # current buffer as completion source | https://github.com/hrsh7th/cmp-buffer/
-    cmp-path # file paths as completion source | https://github.com/hrsh7th/cmp-path/
-    cmp-nvim-lua # neovim lua API as completion source | https://github.com/hrsh7th/cmp-nvim-lua/
-    cmp-nvim-lsp # LSP as completion source | https://github.com/hrsh7th/cmp-nvim-lsp/
-    cmp-cmdline # cmp command line suggestions
-    cmp-nvim-lsp-signature-help # https://github.com/hrsh7th/cmp-nvim-lsp-signature-help/
-    cmp-cmdline-history # cmp command line history suggestions
-    lspkind-nvim
+    # nvim-cmp # https://github.com/hrsh7th/nvim-cmp
+    # luasnip
+    # cmp_luasnip # snippets autocompletion extension for nvim-cmp | https://github.com/saadparwaiz1/cmp_luasnip/
+    # cmp-buffer # current buffer as completion source | https://github.com/hrsh7th/cmp-buffer/
+    # cmp-path # file paths as completion source | https://github.com/hrsh7th/cmp-path/
+    # cmp-nvim-lua # neovim lua API as completion source | https://github.com/hrsh7th/cmp-nvim-lua/
+    # cmp-nvim-lsp # LSP as completion source | https://github.com/hrsh7th/cmp-nvim-lsp/
+    # cmp-cmdline # cmp command line suggestions
+    # cmp-nvim-lsp-signature-help # https://github.com/hrsh7th/cmp-nvim-lsp-signature-help/
+    # cmp-cmdline-history # cmp command line history suggestions
+    # lspkind-nvim
     # ^ nvim-cmp extensions
     # git integration plugins
     # diffview-nvim # https://github.com/sindrets/diffview.nvim/
     # neogit # https://github.com/TimUntersberger/neogit/
-    vim-fugitive # https://github.com/tpope/vim-fugitive/
+    # vim-fugitive # https://github.com/tpope/vim-fugitive/
     # ^ git integration plugins
     # telescope and extensions
     telescope-nvim # https://github.com/nvim-telescope/telescope.nvim/
