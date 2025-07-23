@@ -36,6 +36,8 @@ remap("n", "0", "^", opts)
 -- Clear search highlights
 remap("n", "\\\\", ":nohlsearch<CR>", opts)
 
+remap('t', '<esc>', [[<C-\><C-n>]], opts)
+
 -- Visual --
 -- Stay in indent mode
 remap("v", "<S-h>", "<gv", opts)
