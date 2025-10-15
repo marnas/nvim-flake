@@ -70,7 +70,7 @@ local servers = {
 -- servers.html = { filetypes = { 'html', 'twig', 'hbs'} },
 
 for server_name, cfg in pairs(servers) do
-	require('lspconfig')[server_name].setup({
+	vim.lsp.config(server_name, {
 		capabilities = require('blink-cmp').get_lsp_capabilities(),
 		-- capabilities = require('plugins.lsp-on_attach').get_capabilities(),
 		on_attach = require('plugins.lsp-on_attach').on_attach,
