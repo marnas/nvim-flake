@@ -1,190 +1,196 @@
-## :books: Usage
+# nvim-flake
 
-1. Click on [Use this template](https://github.com/nix-community/kickstart-nix.nvim/generate)
-to start a repo based on this template. **Do _not_ fork it**.
-1. Add/remove plugins to/from the [Neovim overlay](./nix/neovim-overlay.nix).
-1. Add/remove plugin configs to/from the `nvim/plugin` directory.
-1. Modify as you wish (you will probably want to add a color theme, ...).
-   See: [Design](#robot-design).
-1. You can create more than one package using the `mkNeovim` function by
-    - Passing different plugin lists.
-    - Adding `ignoreConfigRegexes` (e.g. `= [ "^ftplugin/.*.lua" ]`).
+A fully reproducible Neovim configuration packaged as a Nix flake. This setup bundles Neovim with all plugins, LSP servers, and tools into a single self-contained derivation that can be used anywhere Nix is available.
 
-> [!TIP]
->
-> The nix and lua files contain comments explaining
-> what everything does in detail.
+## Features
 
-## :zap: Installation
+- **Zero configuration required** - Just run and use
+- **Fully reproducible** - Same config, same behavior, everywhere
+- **All dependencies included** - LSP servers, formatters, and tools bundled in PATH
+- **Multiple installation methods** - Try it, install it, or import it into your NixOS config
 
-### :snowflake: NixOS (with flakes)
+### Included Tools
 
-1. Add your flake to you NixOS flake inputs.
-1. Add the overlay provided by this flake.
+- **LSP Servers**: nixd, gopls, rust-analyzer, lua-language-server, terraform-ls, tflint, helm-ls, yaml-language-server, vscode-langservers-extracted (jsonls)
+- **Plugins**: telescope, neo-tree, gitsigns, leap, blink-cmp, copilot, lualine, render-markdown, and more
+- **Theme**: Monokai Pro
 
-```nix
-nixpkgs.overlays = [
-    # replace <kickstart-nix-nvim> with the name you chose
-    <kickstart-nix-nvim>.overlays.default
-];
+## Quick Start
+
+### Try without installing
+
+The fastest way to try this configuration:
+
+```bash
+nix run github:marnas/nvim-flake
 ```
 
-You can then add the overlay's output(s) to the `systemPackages`:
+Or with a file:
+
+```bash
+nix run github:marnas/nvim-flake -- myfile.txt
+```
+
+This downloads and runs the configuration without installing anything permanently.
+
+## Installation
+
+### NixOS (with flakes)
+
+Add to your `flake.nix` inputs:
 
 ```nix
-environment.systemPackages = with pkgs; [
-    nvim-pkg # The default package added by the overlay
-];
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nvim-flake.url = "github:marnas/nvim-flake";
+  };
+
+  outputs = { nixpkgs, nvim-flake, ... }: {
+    nixosConfigurations.your-hostname = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        {
+          nixpkgs.overlays = [ nvim-flake.overlays.default ];
+          environment.systemPackages = with pkgs; [
+            nvim-pkg
+          ];
+        }
+      ];
+    };
+  };
+}
 ```
 
 > [!IMPORTANT]
 >
-> This flake uses `nixpkgs.wrapNeovimUnstable`, which has an
-> unstable signature. If you set `nixpkgs.follows = "nixpkgs";`
-> when importing this into your flake.nix, it may break.
-> Especially if your nixpkgs input pins a different branch.
+> This flake uses `nixpkgs.wrapNeovimUnstable`, which has an unstable signature.
+> Avoid setting `nixpkgs.follows = "nixpkgs"` when importing this flake, as it may break
+> if your nixpkgs input pins a different branch.
 
-### :penguin: Non-NixOS
+### Non-NixOS / Home Manager
 
-With Nix installed (flakes enabled), from the repo root:
+Install to your profile:
 
-```console
+```bash
+# From the repo root
 nix profile install .#nvim
+
+# Or directly from GitHub
+nix profile install github:marnas/nvim-flake
 ```
 
-## :robot: Design
+Or use in a development shell:
 
-Directory structure:
-
-```sh
-── flake.nix
-── nvim # Neovim configs (lua), equivalent to ~/.config/nvim
-── nix # Nix configs
+```bash
+nix shell github:marnas/nvim-flake
 ```
 
-### :open_file_folder: Neovim configs
+## Project Structure
 
-- Set options in `init.lua`.
-- Source autocommands, user commands, keymaps,
-  and configure plugins in individual files within the `plugin` directory.
-- Filetype-specific scripts (e.g. start LSP clients) in the `ftplugin` directory.
-- Library modules in the `lua/user` directory.
-
-Directory structure:
-
-```sh
-── nvim
-  ├── ftplugin # Sourced when opening a file type
-  │  └── <filetype>.lua
-  ├── init.lua # Always sourced
-  ├── lua # Shared library modules
-  │  └── user
-  │     └── <lib>.lua
-  ├── plugin # Automatically sourced at startup
-  │  ├── autocommands.lua
-  │  ├── commands.lua
-  │  ├── keymaps.lua
-  │  ├── plugins.lua # Plugins that require a `setup` call
-  │  └── <plugin-config>.lua # Plugin configurations
-  └── after # Empty in this template
-     ├── plugin # Sourced at the very end of startup (rarely needed)
-     └── ftplugin # Sourced when opening a filetype, after sourcing ftplugin scripts
+```
+.
+├── flake.nix                    # Flake entry point
+├── nix/
+│   ├── neovim-overlay.nix      # Plugin and package declarations
+│   └── mkNeovim.nix            # Neovim derivation builder
+└── nvim/                        # Neovim configuration (like ~/.config/nvim)
+    ├── init.lua                # Main init file
+    └── lua/
+        ├── core/               # Core settings and keymaps
+        └── plugins/            # Plugin configurations
 ```
 
-> [!IMPORTANT]
->
-> - Configuration variables (e.g. `vim.g.<plugin_config>`) should go in `nvim/init.lua`
->   or a module that is `require`d in `init.lua`.
-> - Configurations for plugins that require explicit initialization
->   (e.g. via a call to a `setup()` function) should go in `nvim/plugin/<plugin>.lua`
->   or `nvim/plugin/plugins.lua`.
-> - See [Initialization order](#initialization-order) for details.
+### How it works
 
-### :open_file_folder: Nix
+1. **neovim-overlay.nix** lists all plugins and external packages (LSPs, tools)
+2. **mkNeovim.nix** bundles everything together:
+   - Installs all plugins
+   - Copies your lua configs
+   - Adds all tools to PATH
+3. **Result**: A single `nvim` binary with everything included
 
-You can declare Neovim derivations in `nix/neovim-overlay.nix`.
+## Customization
 
-There are two ways to add plugins:
+### Adding/Removing Plugins
 
-- The traditional way, using `nixpkgs` as the source.
-- By adding plugins as flake inputs (if you like living on the bleeding-edge).
-  Plugins added as flake inputs must be built in `nix/plugin-overlay.nix`.
+Edit `nix/neovim-overlay.nix`:
 
-Directory structure:
-
-```sh
-── flake.nix
-── nix
-  ├── mkNeovim.nix # Function for creating the Neovim derivation
-  └── neovim-overlay.nix # Overlay that adds Neovim derivation
+```nix
+all-plugins = with pkgs.vimPlugins; [
+  telescope-nvim
+  neo-tree-nvim
+  # Add your plugins here (alphabetically sorted)
+];
 ```
 
-### :mag: Initialization order
+Then add the plugin's configuration in `nvim/lua/plugins/<plugin-name>.lua` and require it in `nvim/init.lua`.
 
-This derivation creates an `init.lua` as follows:
+### Adding/Removing LSP Servers
 
-1. Add `nvim/lua` to the `runtimepath`.
-1. Add the content of `nvim/init.lua`.
-1. Add `nvim/*` to the `runtimepath`.
-1. Add `nvim/after` to the `runtimepath`.
+Edit `nix/neovim-overlay.nix`:
 
-This means that modules in `nvim/lua` can be `require`d in `init.lua` and `nvim/*/*.lua`.
-
-Modules in `nvim/plugin/` are sourced automatically, as if they were plugins.
-Because they are added to the runtime path at the end of the resulting `init.lua`,
-Neovim sources them _after_ loading plugins.
-
-## :electric_plug: Pre-configured plugins
-
-This configuration comes with [a few plugins pre-configured](./nix/neovim-overlay.nix).
-
-You can add or remove plugins by
-
-- Adding/Removing them in the [Nix list](./nix/neovim-overlay.nix).
-- Adding/Removing the config in `nvim/plugin/<plugin>.lua`.
-
-## :anchor: Syncing updates
-
-If you have used this template and would like to fetch updates
-that were added later...
-
-Add this template as a remote:
-
-```console
-git remote add upstream git@github.com:nix-community/kickstart-nix.nvim.git
+```nix
+extraPackages = with pkgs; [
+  lua-language-server
+  rust-analyzer
+  # Add your tools here
+];
 ```
 
-Fetch and merge changes:
+Then configure the LSP in `nvim/lua/plugins/lsp.lua`.
 
-```console
-git fetch upstream
-git merge upstream/main --allow-unrelated-histories
-```
+### Language Server Configuration
 
-## :pencil: Editing your config
+All LSP servers are configured in `nvim/lua/plugins/lsp.lua` using the new `vim.lsp.config()` API. Current servers:
 
-When your neovim setup is a nix derivation, editing your config
-demands a different workflow than you are used to without nix.
-Here is how I usually do it:
+- **nixd** - Nix with formatting via nixfmt
+- **lua_ls** - Lua with Neovim API support
+- **gopls** - Go
+- **rust_analyzer** - Rust with proc macros enabled
+- **jsonls** - JSON
+- **terraformls** & **tflint** - Terraform
+- **helm_ls** - Helm charts
+- **yamlls** - YAML with Kubernetes schemas
 
-- Perform modifications and stage any new files[^2].
-- Run `nix run /path/to/neovim/#nvim`
-  or `nix run /path/to/neovim/#nvim -- <nvim-args>`
+## Development Workflow
 
-[^2]: When adding new files, nix flakes won't pick them up unless they
-      have been committed or staged.
+When editing this flake:
 
-This requires a rebuild of the `nvim` derivation, but has the advantage
-that if anything breaks, it's only broken during your test run.
+1. Make changes to files in `nvim/` or `nix/`
+2. Stage new files (required for flakes): `git add .`
+3. Test your changes: `nix run .` or `nix run . -- test.txt`
 
-If you want an impure, but faster feedback loop,
-you can use `$XDG_CONFIG_HOME/$NVIM_APPNAME`[^3], where `$NVIM_APPNAME` 
-defaults to `nvim` if the `appName` attribute is not set 
-in the `mkNeovim` function.
+This rebuilds the derivation with your changes. If something breaks, it only affects the test run.
 
-[^3]: Assuming Linux. Refer to `:h initialization` for Darwin.
+### Faster feedback loop
 
-This has one caveat: The wrapper which nix generates for the derivation
-calls `nvim` with `-u /nix/store/path/to/generated-init.lua`.
-So it won't source a local `init.lua` file.
-To work around this, you can put scripts in the `plugin` or `after/plugin` directory.
+For rapid iteration, you can also use `~/.config/nvim` for quick tests:
+- The nix derivation generates init.lua, so local `init.lua` won't be sourced
+- Put test scripts in `~/.config/nvim/plugin/` or `~/.config/nvim/after/plugin/`
+- Once tested, port changes back to the flake
+
+## Included Plugins
+
+- **blink-cmp** - Fast completion engine
+- **copilot-vim** - GitHub Copilot integration
+- **gitsigns** - Git decorations
+- **leap** - Lightning-fast motion
+- **lualine** - Statusline
+- **markdown-preview** - Live markdown preview
+- **monokai-pro** - Color scheme
+- **neo-tree** - File explorer
+- **neoscroll** - Smooth scrolling
+- **nvim-treesitter** - Syntax highlighting (all grammars included)
+- **nvim-web-devicons** - File icons
+- **plenary** - Lua utilities
+- **render-markdown** - Better markdown rendering
+- **telescope** - Fuzzy finder
+- **toggleterm** - Terminal management
+- **vim-helm** - Helm chart support
+- **vim-terraform** - Terraform support
+- **vim-tmux-navigator** - Seamless tmux/vim navigation
+
+---
+
+Based on [kickstart-nix.nvim](https://github.com/nix-community/kickstart-nix.nvim)
