@@ -1,66 +1,90 @@
 local servers = {
 	lua_ls = {
-		Lua = {
-			formatters = {
-				ignoreComments = true,
-			},
-			signatureHelp = { enabled = true },
-			diagnostics = {
-				disable = { 'missing-fields' },
-				globals = { 'vim' },
-			},
-		},
-		telemetry = { enabled = false },
 		filetypes = { 'lua' },
+		settings = {
+			Lua = {
+				formatters = {
+					ignoreComments = true,
+				},
+				signatureHelp = { enabled = true },
+				diagnostics = {
+					disable = { 'missing-fields' },
+					globals = { 'vim' },
+				},
+			},
+			telemetry = { enabled = false },
+		},
 	},
 
 	nixd = {
-		nixd = {
-			nixpkgs = {
-				expr = [[import (builtins.getFlake "]] .. [[") { }   ]],
-			},
-			formatting = {
-				command = { "nixfmt" }
-			},
-			diagnostic = {
-				suppress = {
-					"sema-escaping-with"
+		filetypes = { 'nix' },
+		settings = {
+			nixd = {
+				nixpkgs = {
+					expr = [[import (builtins.getFlake "]] .. [[") { }   ]],
+				},
+				formatting = {
+					command = { "nixfmt" }
+				},
+				diagnostic = {
+					suppress = {
+						"sema-escaping-with"
+					}
 				}
 			}
 		}
 	},
 
-	helm_ls = {},
+	helm_ls = {
+		filetypes = { 'helm' },
+	},
 
-	-- yamlls = {
-	-- 	yaml = {
-	-- 		schemas = { kubernetes = "*.yaml" },
-	-- 	},
-	-- },
+	yamlls = {
+		filetypes = { 'yaml', 'yaml.docker-compose' },
+		settings = {
+			yaml = {
+				schemas = { kubernetes = "*.yaml" },
+			},
+		},
+	},
 
-	gopls = {},
+	gopls = {
+		filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+	},
+
 	jsonls = {
+		filetypes = { 'json', 'jsonc' },
 		cmd = { 'vscode-json-language-server', '--stdio' },
 	},
 
-	terraformls = {},
-	tflint = {},
+	terraformls = {
+		filetypes = { 'terraform', 'tf' },
+	},
+
+	tflint = {
+		filetypes = { 'terraform' },
+	},
 
 	rust_analyzer = {
-		imports = {
-			granularity = {
-				group = "module",
-			},
-			prefix = "self",
-		},
-		cargo = {
-			buildScripts = {
-				enable = true,
-			},
-		},
-		procMacro = {
-			enable = true
-		},
+		filetypes = { 'rust' },
+		settings = {
+			['rust-analyzer'] = {
+				imports = {
+					granularity = {
+						group = "module",
+					},
+					prefix = "self",
+				},
+				cargo = {
+					buildScripts = {
+						enable = true,
+					},
+				},
+				procMacro = {
+					enable = true
+				},
+			}
+		}
 	}
 }
 
@@ -72,13 +96,13 @@ local servers = {
 for server_name, cfg in pairs(servers) do
 	vim.lsp.config(server_name, {
 		capabilities = require('blink-cmp').get_lsp_capabilities(),
-		-- capabilities = require('plugins.lsp-on_attach').get_capabilities(),
 		on_attach = require('plugins.lsp-on_attach').on_attach,
-		settings = cfg,
-		filetypes = (cfg or {}).filetypes,
-		cmd = (cfg or {}).cmd,
-		root_pattern = (cfg or {}).root_pattern,
+		settings = cfg.settings or {},
+		filetypes = cfg.filetypes,
+		cmd = cfg.cmd,
+		root_dir = cfg.root_dir,
 	})
+	vim.lsp.enable(server_name)
 end
 
 vim.lsp.set_log_level("off")
