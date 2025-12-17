@@ -43,7 +43,14 @@ local servers = {
 		filetypes = { 'yaml', 'yaml.docker-compose' },
 		settings = {
 			yaml = {
-				schemas = { kubernetes = "*.yaml" },
+				schemaStore = {
+					enable = true,
+					url = "https://www.schemastore.org/api/json/catalog.json",
+				},
+				-- Auto-generated schemas from datreeio/CRDs-catalog
+				schemas = require('utils.yaml-catalog').get_schemas(),
+				validate = true,
+				completion = true,
 			},
 		},
 	},
@@ -106,3 +113,6 @@ for server_name, cfg in pairs(servers) do
 end
 
 vim.lsp.set_log_level("off")
+
+-- Setup YAML schema auto-detection for CRDs
+require('utils.yaml-schema-autodetect')

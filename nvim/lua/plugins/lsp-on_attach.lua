@@ -42,7 +42,12 @@ function M.on_attach(client, bufnr)
 	end, { desc = 'Format current buffer with LSP' })
 
 	-- Auto format on save
-	vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		buffer = bufnr,
+		callback = function()
+			vim.lsp.buf.format({ bufnr = bufnr })
+		end,
+	})
 end
 
 -- function M.get_capabilities(server_name)
