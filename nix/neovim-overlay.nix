@@ -7,10 +7,18 @@ let
 
   # Make sure we use the pinned nixpkgs instance for wrapNeovimUnstable,
   # otherwise it could have an incompatible signature when applying this overlay.
-  pkgs-wrapNeovim = inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  pkgs-wrapNeovim =
+    inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 
   # This is the helper function that builds the Neovim derivation.
   mkNeovim = pkgs.callPackage ./mkNeovim.nix { inherit pkgs-wrapNeovim; };
+
+  # Use treesitter with all grammars and override textobjects to use the same version
+  treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+  treesitter-textobjects =
+    pkgs.vimPlugins.nvim-treesitter-textobjects.overrideAttrs {
+      dependencies = [ treesitter ];
+    };
 
   all-plugins = with pkgs.vimPlugins; [
     # Active plugins
@@ -24,8 +32,8 @@ let
     neo-tree-nvim
     neoscroll-nvim
     nvim-lspconfig
-    nvim-treesitter-textobjects
-    nvim-treesitter.withAllGrammars
+    treesitter-textobjects
+    treesitter
     nvim-web-devicons
     plenary-nvim
     render-markdown-nvim
@@ -72,7 +80,7 @@ let
     yaml-language-server
 
     # Formatters
-    nixfmt-classic
+    nixfmt
 
     # Tools
     fd
