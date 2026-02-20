@@ -7,23 +7,20 @@ let
 
   # Make sure we use the pinned nixpkgs instance for wrapNeovimUnstable,
   # otherwise it could have an incompatible signature when applying this overlay.
-  pkgs-wrapNeovim =
-    inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  pkgs-wrapNeovim = inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 
   # This is the helper function that builds the Neovim derivation.
   mkNeovim = pkgs.callPackage ./mkNeovim.nix { inherit pkgs-wrapNeovim; };
 
   # Use treesitter with all grammars and override textobjects to use the same version
   treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-  treesitter-textobjects =
-    pkgs.vimPlugins.nvim-treesitter-textobjects.overrideAttrs {
-      dependencies = [ treesitter ];
-    };
+  treesitter-textobjects = pkgs.vimPlugins.nvim-treesitter-textobjects.overrideAttrs {
+    dependencies = [ treesitter ];
+  };
 
   all-plugins = with pkgs.vimPlugins; [
     # Active plugins
     blink-cmp
-    copilot-vim
     gitsigns-nvim
     leap-nvim
     lualine-nvim
@@ -86,7 +83,8 @@ let
     fd
     ripgrep
   ];
-in {
+in
+{
   # This is the neovim derivation
   # returned by the overlay
   nvim-pkg = mkNeovim {
