@@ -40,7 +40,7 @@ local servers = {
 	},
 
 	yamlls = {
-		filetypes = { 'yaml', 'yaml.docker-compose' },
+		filetypes = { 'yaml' },
 		settings = {
 			yaml = {
 				schemaStore = {
@@ -56,7 +56,7 @@ local servers = {
 	},
 
 	gopls = {
-		filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+		filetypes = { 'go', 'gomod', 'gowork' },
 	},
 
 	jsonls = {
@@ -112,7 +112,7 @@ for server_name, cfg in pairs(servers) do
 	vim.lsp.enable(server_name)
 end
 
-vim.lsp.set_log_level("off")
+vim.lsp.log.set_level("off")
 
 -- Setup YAML schema auto-detection for CRDs
 require('utils.yaml-schema-autodetect')
