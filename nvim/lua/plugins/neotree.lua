@@ -30,6 +30,18 @@ require("neo-tree").setup({
 	},
 })
 
+vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter", "WinEnter" }, {
+	callback = function()
+		if vim.bo.filetype == "neo-tree" then
+			vim.schedule(function()
+				vim.opt_local.statusline = " "
+				vim.opt_local.fillchars = { eob = " " }
+				vim.opt_local.winhighlight = "Normal:NeoTreeNormal,NormalNC:NeoTreeNormal,StatusLine:NeoTreeNormal,StatusLineNC:NeoTreeNormal,EndOfBuffer:NeoTreeNormal"
+			end)
+		end
+	end,
+})
+
 -- Enabling git events for auto-refresh
 local events = require("neo-tree.events")
 events.fire_event(events.GIT_EVENT)

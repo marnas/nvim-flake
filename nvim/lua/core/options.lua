@@ -25,6 +25,7 @@ local options = {
 	guifont = "monospace:h17",              -- the font used in graphical neovim applications
 	showmode = false,                       -- we don't need to see things like -- INSERT -- anymore
 	showtabline = 2,                        -- always show tabs
+	cmdheight = 1,                          -- keep the cmdline row visible
 	foldenable = false,                     -- disable fold at startup
 	foldmethod = 'indent',
 	foldlevel = 20,
@@ -35,6 +36,22 @@ vim.opt.shortmess:append "c"
 for key, value in pairs(options) do
 	vim.opt[key] = value
 end
+
+-- After running a `:command`, the typed line lingers in the cmdline area.
+-- This clears it ~1.5s after the cmdline is dismissed, keeping the row visible
+-- but blank when idle. Errors / messages still appear; messagesopt above caps
+-- how long those persist.
+local clear_cmdline = vim.api.nvim_create_augroup("ClearCmdline", { clear = true })
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+	group = clear_cmdline,
+	callback = function()
+		vim.defer_fn(function()
+			if vim.fn.mode() == "n" then
+				vim.api.nvim_echo({ { "" } }, false, {})
+			end
+		end, 1500)
+	end,
+})
 
 -- Auto refresh buffer on external changes
 -- vim.cmd "au CursorHold * checktime | call feedkeys('lh')"

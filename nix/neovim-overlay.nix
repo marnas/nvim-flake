@@ -21,11 +21,13 @@ let
   all-plugins = with pkgs.vimPlugins; [
     # Active plugins
     blink-cmp
+    bufferline-nvim
     gitsigns-nvim
     leap-nvim
-    lualine-nvim
     markdown-preview-nvim
+    mini-nvim
     monokai-pro-nvim
+    tokyonight-nvim
     neo-tree-nvim
     neoscroll-nvim
     nvim-lspconfig
@@ -42,7 +44,6 @@ let
 
     # Disabled plugins
     # alpha-nvim
-    # bufferline-nvim
     # codecompanion-nvim
     # friendly-snippets
     # telescope-fzy-native-nvim
