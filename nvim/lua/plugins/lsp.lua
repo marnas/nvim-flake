@@ -21,7 +21,7 @@ local servers = {
 		settings = {
 			nixd = {
 				nixpkgs = {
-					expr = [[import (builtins.getFlake "]] .. [[") { }   ]],
+					expr = 'import (builtins.getFlake "' .. vim.fn.expand('~/.dotfiles') .. '").inputs.nixpkgs { }',
 				},
 				formatting = {
 					command = { "nixfmt" }
