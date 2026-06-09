@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
     gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
 
     # Add bleeding-edge plugins here.
@@ -18,7 +17,6 @@
     inputs@{
       self,
       nixpkgs,
-      flake-utils,
       gen-luarc,
       ...
     }:
@@ -32,28 +30,40 @@
 
       # This is where the Neovim derivation is built.
       neovim-overlay = import ./nix/neovim-overlay.nix { inherit inputs; };
+
+      forEachSystem =
+        f:
+        nixpkgs.lib.genAttrs supportedSystems (
+          system:
+          f (
+            import nixpkgs {
+              inherit system;
+              overlays = [
+                # Import the overlay, so that the final Neovim derivation(s) can be accessed via pkgs.<nvim-pkg>
+                neovim-overlay
+                # This adds a function can be used to generate a .luarc.json
+                # containing the Neovim API all plugins in the workspace directory.
+                # The generated file can be symlinked in the devShell's shellHook.
+                gen-luarc.overlays.default
+              ];
+              config.allowUnfree = true;
+            }
+          )
+        );
     in
-    flake-utils.lib.eachSystem supportedSystems (
-      system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            # Import the overlay, so that the final Neovim derivation(s) can be accessed via pkgs.<nvim-pkg>
-            neovim-overlay
-            # This adds a function can be used to generate a .luarc.json
-            # containing the Neovim API all plugins in the workspace directory.
-            # The generated file can be symlinked in the devShell's shellHook.
-            gen-luarc.overlays.default
-          ];
-          config.allowUnfree = true;
-        };
-        shell = pkgs.mkShell {
+    {
+      packages = forEachSystem (pkgs: rec {
+        default = nvim;
+        nvim = pkgs.nvim-pkg;
+      });
+
+      devShells = forEachSystem (pkgs: {
+        default = pkgs.mkShell {
           name = "nvim-devShell";
           buildInputs = with pkgs; [
             # Tools for Lua and Nix development, useful for editing files in this repo
             lua-language-server
-            nil
+            nixd
             stylua
             luajitPackages.luacheck
           ];
@@ -62,18 +72,8 @@
             ln -fs ${pkgs.nvim-luarc-json} .luarc.json
           '';
         };
-      in
-      {
-        packages = rec {
-          default = nvim;
-          nvim = pkgs.nvim-pkg;
-        };
-        devShells = {
-          default = shell;
-        };
-      }
-    )
-    // {
+      });
+
       # You can add this overlay to your NixOS configuration
       overlays.default = neovim-overlay;
     };
