@@ -1,5 +1,4 @@
 local options = {
-	completeopt = { "menuone", "noselect" }, -- mostly just for cmp
 	fileencoding = "utf-8",                 -- the encoding written to a file
 	ignorecase = true,                      -- ignore case in search patterns
 	mouse = "a",                            -- allow the mouse to be used in neovim
@@ -31,16 +30,13 @@ local options = {
 	foldlevel = 20,
 }
 
-vim.opt.shortmess:append "c"
-
 for key, value in pairs(options) do
 	vim.opt[key] = value
 end
 
 -- After running a `:command`, the typed line lingers in the cmdline area.
 -- This clears it ~1.5s after the cmdline is dismissed, keeping the row visible
--- but blank when idle. Errors / messages still appear; messagesopt above caps
--- how long those persist.
+-- but blank when idle. Errors / messages still appear.
 local clear_cmdline = vim.api.nvim_create_augroup("ClearCmdline", { clear = true })
 vim.api.nvim_create_autocmd("CmdlineLeave", {
 	group = clear_cmdline,

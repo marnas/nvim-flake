@@ -47,8 +47,10 @@ local servers = {
 					enable = true,
 					url = "https://www.schemastore.org/api/json/catalog.json",
 				},
-				-- Auto-generated schemas from datreeio/CRDs-catalog
-				schemas = require('utils.yaml-catalog').get_schemas(),
+				-- No static schemas: a kubernetes = "*.yaml" pattern would reject CRD
+				-- kinds. CRD and core k8s schemas are applied per-buffer by
+				-- utils/yaml-schema-autodetect instead.
+				schemas = {},
 				validate = true,
 				completion = true,
 			},

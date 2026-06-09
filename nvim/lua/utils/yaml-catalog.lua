@@ -55,11 +55,4 @@ function M.is_crd_group(api_version)
 	return false
 end
 
--- Get static schemas for yamlls config
-function M.get_schemas()
-	-- Don't set kubernetes = "*.yaml" pattern as it rejects CRD kinds
-	-- Instead, we handle both CRDs and core k8s resources dynamically
-	return {}
-end
-
 return M

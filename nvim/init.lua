@@ -3,8 +3,6 @@ require "core.remap"
 require "plugins.blink-cmp"
 require "plugins.bufferline"
 require "plugins.mini"
--- require "plugins.codecompanion"
--- require "plugins.cmp"
 -- Active colorscheme; swap by toggling these requires.
 -- require "plugins.colorscheme-tokyonight"
 require "plugins.colorscheme-monokai-pro"

@@ -9,11 +9,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Normal --
--- Better window navigation
-remap("n", "<C-h>", "<CMD>NavigatorLeft<CR>", opts)
-remap("n", "<C-l>", "<CMD>NavigatorRight<CR>", opts)
-remap("n", "<C-k>", "<CMD>NavigatorUp<CR>", opts)
-remap("n", "<C-j>", "<CMD>NavigatorDown<CR>", opts)
+-- Window navigation (<C-h/j/k/l>) is provided by vim-tmux-navigator's own mappings
 
 -- Resize with arrows
 remap("n", "<C-Up>", ":resize +2<CR>", opts)
@@ -46,8 +42,6 @@ remap("v", "<S-l>", ">gv", opts)
 -- Don't yank after pasting
 remap("v", "p", '"_dP', opts)
 
--- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+-- Diagnostic keymaps ([d / ]d are built-in defaults since 0.10)
 vim.keymap.set("n", "<leader>f", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
