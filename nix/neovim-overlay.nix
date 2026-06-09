@@ -1,7 +1,6 @@
 # This overlay, when applied to nixpkgs, adds the final neovim derivation to nixpkgs.
 { inputs }:
 final: prev:
-with final.pkgs.lib;
 let
   pkgs = final;
 
@@ -41,28 +40,6 @@ let
     vim-helm
     vim-terraform
     vim-tmux-navigator
-
-    # Disabled plugins
-    # alpha-nvim
-    # codecompanion-nvim
-    # friendly-snippets
-    # telescope-fzy-native-nvim
-
-    # Old nvim-cmp plugins (to be removed eventually)
-    # cmp-buffer
-    # cmp-cmdline
-    # cmp-cmdline-history
-    # cmp-nvim-lsp
-    # cmp-nvim-lsp-signature-help
-    # cmp-nvim-lua
-    # cmp-path
-    # cmp_luasnip
-    # diffview-nvim
-    # lspkind-nvim
-    # luasnip
-    # neogit
-    # nvim-cmp
-    # vim-fugitive
   ];
 
   extraPackages = with pkgs; [
